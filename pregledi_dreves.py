@@ -1,3 +1,5 @@
+from drevo import Drevo
+
 def premi_pregled(d):
     '''premi pregled dreves'''
     if not d.prazno:
@@ -25,3 +27,15 @@ def obratni_pregled(d):
             yield desni
         yield d.podatek
         
+from vrsta import Vrsta
+
+def pregled_po_nivojih(zacetno_drevo):
+    '''pregleda drevo po nivojih'''
+    vrsta = Vrsta([zacetno_drevo])
+    while not vrsta.prazna():
+        drevo = vrsta.zacetek()
+        if not drevo.prazno:
+            vrsta.vstavi(drevo.levo)
+            vrsta.vstavi(drevo.desno)
+            yield drevo.podatek
+        vrsta.odstrani()
