@@ -39,3 +39,17 @@ def pregled_po_nivojih(zacetno_drevo):
             vrsta.vstavi(drevo.desno)
             yield drevo.podatek
         vrsta.odstrani()
+        
+        
+from sklad import Sklad
+
+def pregled_po_skladu(zacetno_drevo):
+    '''pregleda drevo s skladom'''
+    sklad = Sklad()
+    sklad.vstavi(zacetno_drevo)
+    while not sklad.prazen():
+        drevo = sklad.poberi()
+        if not drevo.prazno:
+            sklad.vstavi(drevo.levo)
+            sklad.vstavi(drevo.desno)
+            yield drevo.podatek
