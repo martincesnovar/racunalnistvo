@@ -34,11 +34,13 @@ def je_iskalno_vmesni(drevo):
         if prejsni >= podatek:
             return False
         prejsni = podatek
-    return True #prišli smo do konca
+    return True
 
 
 if __name__ == '__main__':
-    drevo_2 = Drevo(2,levo=Drevo(2),desno=Drevo(3))
+    drevo_2 = Drevo(2,
+                    levo=Drevo(2),
+                    desno=Drevo(3))
     prazno = Drevo()
     en_el = Drevo(0)
     d = Drevo(5,
