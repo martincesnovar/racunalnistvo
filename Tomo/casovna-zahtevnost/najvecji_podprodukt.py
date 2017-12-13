@@ -477,7 +477,7 @@ def _validate_current_file():
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjE2fQ:1eMqUN:bb4_AR_nOaIRMj8RN_myM7-Y0Yc'
+        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjE2fQ:1eP5hk:6Le2jb70GgSScO3VLQsKzK14j7Q'
         
         try:
             Check.equal('najvecji_podprodukt([0.5, 2, 0.7, 3])', 4.2)

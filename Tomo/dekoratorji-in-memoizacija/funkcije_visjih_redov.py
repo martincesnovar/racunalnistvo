@@ -1,151 +1,86 @@
 # =============================================================================
-# Ocenjevanje časovne zahtevnosti
+# Funkcije višjih redov
 #
-# Dostikrat lahko časovno zahtevnost algoritma ocenimo že iz njegove izvorne
-# kode.
-# =====================================================================@011618=
+# Spodaj je primer funkcije višjega reda `eksponentna(a)`, ki kot argument
+# dobi število $a$ in vrne funkcijo $x \mapsto a^x$. Zgled uporabe:
+# 
+#     >>> f = eksponentna(2)
+#     >>> f(5)
+#     32
+#     >>> f(0.5)
+#     1.4142135623730951
+# =====================================================================@011780=
 # 1. podnaloga
-# Dane naj bodo sledeče funkcije:
+# Sestavite funkcijo `linearna(a, b)`, ki kot argumenta dobi števili $a$
+# in $b$ ter vrne funkcijo $x \mapsto a \cdot x + b$. Zgled:
 # 
-#     def vsota1(n):
-#         vsota = 0
-#         for i in range(n):
-#             for j in range(n):
-#                 vsota += i + j
-#         return vsota
-#  
-#     def vsota2(n):
-#         vsota = 0
-#         for i in range(n):
-#             for j in range(100):
-#                 vsota += i + j
-#         return vsota
-#  
-#     def vsota3(n):
-#         vsota = 0
-#         for i in range(n):
-#             for j in range(n):
-#                 vsota += sum(range(i))
-#         return vsota
-# 
-# V spremenljivko `potence1` shranite nabor potenc njihovih časovnih zahtevnosti
-# v odvisnosti od vhoda $n$. Na primer, če bi imele funkcije časovne zahtevnosti
-# $O(n^3)$, $O(n)$ in $O(n^4)$, bi v spremenljivko `potence1` shranili
-# nabor `(3, 1, 4)`.
+#     >>> f = linearna(3, 2)
+#     >>> f(0.5)
+#     3.5
 # =============================================================================
-potence1 = (2, 1, 3)
-# =====================================================================@011617=
+import math
+
+def eksponentna(a):
+    return (lambda x: a ** x)
+
+def linearna(a, b):
+    return lambda x: a*x+b
+# =====================================================================@011781=
 # 2. podnaloga
-# Dane naj bodo sledeče funkcije na seznamih:
+# Sestavite funkcijo `kompozitum(f, g)`, ki kot argumenta dobi funkciji
+# `f` in `g`, ter vrne njun kompozitum.
+# Zgled:
 # 
-#     def poisci_max1(sez):
-#         return sez.index(max(sez))
-# 
-#     def poisci_max2(sez):
-#         najvecji = None
-#         for i in range(len(sez)):
-#             if najvecji is None or sez[i] > najvecji:
-#                 najvecji_i = i
-#                 najvecji = sez[i]
-#         return najvecji_i
-# 
-#     def poisci_max3(sez):
-#         for i in range(len(sez)):
-#             if sez[i] == max(sez):
-#                 return i
-# 
-# V spremenljivko `potence2` shranite nabor potenc njihovih časovnih zahtevnosti
-# v odvisnosti od dolžine vhodnega seznama.
+#     >>> import math
+#     >>> f = kompozitum(abs, math.sin)
+#     >>> f(3*math.pi/2)
+#     1.0
 # =============================================================================
-potence2 = (1,1,2)
-# =====================================================================@011728=
+def kompozitum(f,g):
+    return lambda x:f(g(x))
+# =====================================================================@011782=
 # 3. podnaloga
-# Dane naj bodo sledeče funkcije, ki izračunajo sled kvadratne matrike
-# velikosti $n \times n$:
+# Sestavite funkcijo `odvod(f, epsilon=10e-5)`, ki sprejme funkcijo `f`
+# in vrne njen odvod (ki je spet funkcija). Odvod v točki `x` ocenimo z izrazom
+# $f'(x) \approx (f(x + \epsilon/2) - f(x - \epsilon/2)) / \epsilon$.
+# Zgled:
 # 
-#     def sled1(mat):
-#         sled = 0
-#         for i in range(len(mat)):
-#              for j in range(len(mat)):
-#                  if i == j:
-#                      sled += mat[i][j]
-#         return sled
-# 
-#     def sled2(mat):
-#         sled = 0
-#         for i in range(len(mat)):
-#              sled += mat[i][i]
-#         return sled
-# 
-#     def sled3(mat):
-#         sled = 0
-#         for i, vrstica in enumerate(mat):
-#              sled += vrstica[i]
-#         return sled
-# 
-# V spremenljivko `potence3` shranite nabor potenc njihovih časovnih zahtevnosti
-# v odvisnosti od števila $n$.
+#     >>> f = odvod((lambda x: x * x + 1))
+#     >>> f(1.0)
+#     2.000000000002
 # =============================================================================
-potence3=(2,1,1)
-# =====================================================================@011729=
+def odvod(f, eps=10e-5):
+    return lambda x:(f(x+eps/2)-f(x-eps/2))/eps
+# =====================================================================@011783=
 # 4. podnaloga
-# Dane naj bodo sledeče funkcije, ki iščejo dani element v urejenem seznamu:
+# Sestavite funkcijo `uporabi_nkrat(f, x, n)`, ki kot argumente dobi
+# funkcijo `f`, število `x` in naravno število `n` ter vrne število, ki
+# ga dobimo, če na `x` funkcijo `f` uporabimo $n$-krat. Zgled:
 # 
-#     def poisci1(sez, x):
-#         return x in sez
-# 
-#     def poisci2(sez, x):
-#         for y in sez:
-#             if x == y:
-#                 return True
-#         return False
-#     
-#     def poisci3(sez, x):
-#         od, do = 0, len(sez)
-#         while od < do:
-#             sredina = (od + do) // 2
-#             sredinski = sez[sredina]
-#             if x == sredinski:
-#                 return True
-#             elif x < sredinski:
-#                 do = sredina
-#             elif x > sredinski:
-#                 od = sredina + 1
-#         return False
-#     
-#     def poisci4(sez, x, od=0, do=None):
-#         if do is None:
-#             do = len(sez)
-#         if od == do:
-#             return False
-#         else:
-#             sredina = (od + do) // 2
-#             sredinski = sez[sredina]
-#             if x == sredinski:
-#                 return True
-#             elif x < sredinski:
-#                 return poisci4(sez, x, od, sredina)
-#             elif x > sredinski:
-#                 return poisci4(sez, x, sredina + 1, do)
-#     
-#     def poisci5(sez, x):
-#         if not sez:
-#             return False
-#         else:
-#             sredina = len(sez) // 2
-#             sredinski = sez[sredina]
-#             if x == sredinski:
-#                 return True
-#             elif x < sredinski:
-#                 return poisci5(sez[:sredina], x)
-#             elif x > sredinski:
-#                 return poisci5(sez[sredina + 1:], x)
-# 
-# V spremenljivko `zahtevnosti4` shranite nabor njihovih časovnih zahtevnosti,
-# v odvisnosti od dolžine seznama. Časovne zahtevnosti opišite z enim od nizov
-#     'O(1)', 'O(n)', 'O(n^2)', 'O(log n)', 'O(n log n)', 'O(n^3)'.
+#     >>> collatz = lambda x: x // 2 if x % 2 == 0 else 3*x + 1
+#     >>> uporabi_nkrat(collatz, 13, 7)
+#     4
 # =============================================================================
-zahtevnosti4 = ('O(n)', 'O(n)', 'O(log n)', 'O(log n)', 'O(n)')
+def uporabi_nkrat(f,x,n):
+    for _ in range(n):
+        x=f(x)
+    return x
+# =====================================================================@011784=
+# 5. podnaloga
+# Sestavite funkcijo `uporabi_vse(sez, x)`, ki kot argumenta dobi seznama
+# funkcij `sez` in število `x`. Funkcija naj vsako od funkcij iz `sez` uporabi
+# na `x` in vrne seznam tako dobljenih števil. Zgled:
+# 
+#     >>> f = lambda x: x**2 - 3*x + 4
+#     >>> g = lambda x: x**x
+#     >>> uporabi_vse([math.sin, math.cos, f, g, abs, int], math.pi/2)
+#     [1.0, 6.123233995736766e-17, 1.7550121198876498, 2.032658322210728, 1.5707963267948966, 1]
+# =============================================================================
+def uporabi_vse(sez, x):
+    vrednosti = []
+    for fun in sez:
+        vrednosti.append(fun(x))
+    return vrednosti
 
 
 
@@ -599,74 +534,103 @@ def _validate_current_file():
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjE4fQ:1eP5hk:4ypMvKCwzVFDADAMAlCTDYq6WQI'
-        
         try:
-            if not isinstance(potence1, tuple):
-                Check.error('Spremenljivka potence1 ni nabor.')
-            elif len(potence1) != 3:
-                Check.error('Spremenljivka potence1 mora vsebovati 3 elemente.')
-            elif not all(isinstance(potenca, int) for potenca in potence1):
-                Check.error('Spremenljivka potence1 mora vsebovati samo cela števila.')
-            elif not all(potenca >= 0 for potenca in potence1):
-                Check.error('Spremenljivka potence1 mora vsebovati samo nenegativna števila.')
-            Check.secret(potence1)
+            test_data = [
+                (["f = linearna(3, 2)", "y = f(0.5)"], {'y': 3.5}),
+                (["f = linearna(3, 2)", "y = f(2.5)"], {'y': 9.5}),
+                (["f = linearna(3, 2)", "y = f(-3)"], {'y': -7}),
+                (["f = linearna(-3, 2.5)", "y = f(0.5)"], {'y': 1}),
+                (["f = linearna(0, 7.3)", "y = f(1)"], {'y': 7.3}),
+                (["f = linearna(7, -9)", "y = f(2)"], {'y': 5}),
+                (["f = linearna(1.5, -5)", "y = f(-9)"], {'y': -18.5}),
+            ]
+            for td in test_data:
+                if not Check.run(*td):
+                    break
         except:
             Check.error("Testi sprožijo izjemo\n  {0}",
                         "\n  ".join(traceback.format_exc().split("\n"))[:-2])
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjE3fQ:1eP5hk:kPH9lzRHM2zgwI5IkPQrAOVbxKQ'
-        
         try:
-            if not isinstance(potence2, tuple):
-                Check.error('Spremenljivka potence2 ni nabor.')
-            elif len(potence2) != 3:
-                Check.error('Spremenljivka potence2 mora vsebovati 3 elemente.')
-            elif not all(isinstance(potenca, int) for potenca in potence2):
-                Check.error('Spremenljivka potence2 mora vsebovati samo cela števila.')
-            elif not all(potenca >= 0 for potenca in potence2):
-                Check.error('Spremenljivka potence2 mora vsebovati samo nenegativna števila.')
-            Check.secret(potence2)
+            import math
+            test_data = [
+                (["f = lambda x: x**2", "g = lambda x: x**2 + 3*x + 4",
+                  "h = kompozitum(f, g)", "x = h(2)"], {'x': 196}),
+                (["f = lambda x: x**2", "g = lambda x: x**2 + 3*x + 4",
+                  "h = kompozitum(f, g)", "x = h(-1)"], {'x': 4}),
+                (["f = lambda x: x**2", "g = lambda x: x**2 + 3*x + 4",
+                  "h = kompozitum(g, f)", "x = h(2)"], {'x': 32}),
+                (["f = lambda x: x**2", "g = lambda x: x**2 + 3*x + 4",
+                  "h = kompozitum(g, f)", "x = h(-1)"], {'x': 8}),
+                (["h = kompozitum(math.sin, math.log)", "x = h(3)"], {'x': 0.8905770416677471}),
+                (["h = kompozitum(math.sin, math.log)", "x = h(2)"], {'x': 0.6389612763136348}),    
+            ]
+            for td in test_data:
+                if not Check.run(*td):
+                    break
         except:
             Check.error("Testi sprožijo izjemo\n  {0}",
                         "\n  ".join(traceback.format_exc().split("\n"))[:-2])
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNzI4fQ:1eP5hk:-m_UvynDDPUw92IbjIMUkEfIgRM'
-        
         try:
-            if not isinstance(potence3, tuple):
-                Check.error('Spremenljivka potence3 ni nabor.')
-            elif len(potence3) != 3:
-                Check.error('Spremenljivka potence3 mora vsebovati 3 elemente.')
-            elif not all(isinstance(potenca, int) for potenca in potence3):
-                Check.error('Spremenljivka potence3 mora vsebovati samo cela števila.')
-            elif not all(potenca >= 0 for potenca in potence3):
-                Check.error('Spremenljivka potence3 mora vsebovati samo nenegativna števila.')
-            Check.secret(potence3)
+            import math
+            
+            Check.equal("odvod((lambda x: x))(1.0)", 1.0)
+            Check.equal("odvod((lambda x: x * x))(0.0)", 0.0)
+            Check.equal("odvod((lambda x: x * x))(1.0)", 2.0)
+            Check.equal("odvod((lambda x: x * x))(3.0)", 6.0)
         except:
             Check.error("Testi sprožijo izjemo\n  {0}",
                         "\n  ".join(traceback.format_exc().split("\n"))[:-2])
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNzI5fQ:1eP5hk:mvD9JhYsc571qjImn4q76Z6E7BE'
+        try:
+            test_data = [
+                (["collatz = lambda x: x // 2 if x % 2 == 0 else 3*x + 1",
+                  "x = uporabi_nkrat(collatz, 13, 7)"], {'x': 4}),
+                (["collatz = lambda x: x // 2 if x % 2 == 0 else 3*x + 1",
+                  "x = uporabi_nkrat(collatz, 113, 7)"], {'x': 32}),
+                (["f = lambda x: x**2 - 3*x + 2",
+                  "x = uporabi_nkrat(f, 0.5, 17)"], {'x': 0.2314887767729059}),
+                (["f = lambda x: x**2",
+                  "x = uporabi_nkrat(f, 1.01, 12)"], {'x': 5.0158785658510925e+17}),
+            ]
+            for td in test_data:
+                if not Check.run(*td):
+                    break
+        except:
+            Check.error("Testi sprožijo izjemo\n  {0}",
+                        "\n  ".join(traceback.format_exc().split("\n"))[:-2])
+
+    if Check.part():
         
         try:
-            if not isinstance(zahtevnosti4, tuple):
-                Check.error('Spremenljivka zahtevnosti4 ni nabor.')
-            elif len(zahtevnosti4) != 5:
-                Check.error('Spremenljivka zahtevnosti4 mora vsebovati 5 elementov.')
-            else:
-                for zahtevnost in zahtevnosti4:
-                    if zahtevnost not in ['O(1)', 'O(n)', 'O(n^2)', 'O(log n)', 'O(n log n)', 'O(n^3)']:
-                        Check.error('Zahtevnost {!r} ni pravilne oblike.'.format(zahtevnost))
-                if zahtevnosti4[4] == 'O(log n)':
-                    Check.error('Razmislite, koliko je časovna zahtevnost ustvarjanja rezin.')
-            Check.secret(zahtevnosti4)
+            test_data = [
+                (["f = lambda x: x**2 - 3*x + 4",
+                  "g = lambda x: x**x",
+                  "l = uporabi_vse([math.sin, math.cos, f, g, abs, int], math.pi/2)"],
+                {'l': [1.0, 6.123233995736766e-17, 1.7550121198876498, 2.032658322210728, 1.5707963267948966, 1]}),
+                (["f = lambda x: x**2 - 3*x + 4",
+                  "g = lambda x: x**x",
+                  "l = uporabi_vse([math.sin, math.cos, f, g, abs, int], math.e)"],
+                {'l': [0.41078129050290885, -0.9117339147869651, 3.234210613553514, 15.154262241479259, 2.718281828459045, 2]}),
+                (["f = lambda x: x**2 + 3*x + 4",
+                  "g = lambda x: math.log(x**2 + 1)",
+                  "l = uporabi_vse([str, math.sin, math.tan, f, g, abs, round], math.pi/2)"],
+                {'l': ['1.5707963267948966', 1.0, 1.633123935319537e+16, 11.179790080657028, 1.2434053508887264, 1.5707963267948966, 2]}),
+                (["f = lambda x: x**2 + 3*x + 4",
+                  "g = lambda x: math.log(x**2 + 1)",
+                  "l = uporabi_vse([str, math.sin, math.tan, f, g, abs, round], -1)"],
+                {'l': ['-1', -0.8414709848078965, -1.5574077246549023, 2, 0.6931471805599453, 1, -1]}),
+            ]
+            for td in test_data:
+                if not Check.run(*td, clean=lambda l: [round(x, 9) if type(x) is float else x for x in l]):
+                    break
         except:
             Check.error("Testi sprožijo izjemo\n  {0}",
                         "\n  ".join(traceback.format_exc().split("\n"))[:-2])

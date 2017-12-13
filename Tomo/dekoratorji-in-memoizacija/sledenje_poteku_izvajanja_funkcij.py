@@ -1,151 +1,129 @@
 # =============================================================================
-# Ocenjevanje časovne zahtevnosti
-#
-# Dostikrat lahko časovno zahtevnost algoritma ocenimo že iz njegove izvorne
-# kode.
-# =====================================================================@011618=
+# Sledenje poteku izvajanja funkcij
+# =====================================================================@011777=
 # 1. podnaloga
-# Dane naj bodo sledeče funkcije:
+# Sestavite funkcijo `izpisi_rezultat(f)`, ki sprejme funkcijo enega argumenta
+# `f` in vrne funkcijo, ki pri danem argumentu `x` vrne isti rezultat, vendar
+# prej še izpiše vrednost argumenta in rezultata. Na primer:
 # 
-#     def vsota1(n):
-#         vsota = 0
-#         for i in range(n):
-#             for j in range(n):
-#                 vsota += i + j
-#         return vsota
-#  
-#     def vsota2(n):
-#         vsota = 0
-#         for i in range(n):
-#             for j in range(100):
-#                 vsota += i + j
-#         return vsota
-#  
-#     def vsota3(n):
-#         vsota = 0
-#         for i in range(n):
-#             for j in range(n):
-#                 vsota += sum(range(i))
-#         return vsota
+#     >>> def g(x): return x + 2
+#     >>> glasni_g = izpisi_rezultat(g)
+#     >>> 10 * g(5)
+#     70
+#     >>> 10 * glasni_g(5)
+#     Pri argumentu 5 je rezultat 7
+#     70
 # 
-# V spremenljivko `potence1` shranite nabor potenc njihovih časovnih zahtevnosti
-# v odvisnosti od vhoda $n$. Na primer, če bi imele funkcije časovne zahtevnosti
-# $O(n^3)$, $O(n)$ in $O(n^4)$, bi v spremenljivko `potence1` shranili
-# nabor `(3, 1, 4)`.
+# Če ob definiciji funkcije `f` uporabite dekorator `@izpisi_rezultat`, bo `f`
+# definirana kot `izpisi_rezultat(osnovni_f)`, kjer je `osnovni_f` funkcija,
+# kakršna bi bila `f`, če ne bi uporabili dekoratorja. Na primer, če definirate:
+# 
+#     @izpisi_rezultat
+#     def fakulteta(n):
+#         if n == 0:
+#             return 1
+#         else:
+#             return n * fakulteta(n - 1)
+# 
+# Bo klic funkcije `fakulteta` izpisoval svoj rezultat:
+# 
+#     >>> fakulteta(5)
+#     Pri argumentu 0 je rezultat 1
+#     Pri argumentu 1 je rezultat 1
+#     Pri argumentu 2 je rezultat 2
+#     Pri argumentu 3 je rezultat 6
+#     Pri argumentu 4 je rezultat 24
+#     Pri argumentu 5 je rezultat 120
+#     120
 # =============================================================================
-potence1 = (2, 1, 3)
-# =====================================================================@011617=
+def izpisi_rezultat(f):
+    '''izpisuje rezultat argumentov'''
+    def glasni_f(x):
+        y = f(x)
+        print('Pri argumentu {} je rezultat {}'.format(x, y))
+        return y
+    return glasni_f
+# =====================================================================@011778=
 # 2. podnaloga
-# Dane naj bodo sledeče funkcije na seznamih:
+# Sestavite funkcijo `prikazi_izracune(f)`, ki sprejme funkcijo `f` poljubnega
+# števila argumentov (pomagajte si z `*args`) in vrne funkcijo, ki pri danih
+# argumentih vrne isti rezultat, vendar na začetku izračuna pove, kaj računa,
+# na koncu pa izpiše opravljen izračun. Na primer, ob definiciji:
 # 
-#     def poisci_max1(sez):
-#         return sez.index(max(sez))
+#     @prikazi_izracune
+#     def gcd(m, n):
+#         if n == 0:
+#             return m
+#         else:
+#             return gcd(n, m % n)
 # 
-#     def poisci_max2(sez):
-#         najvecji = None
-#         for i in range(len(sez)):
-#             if najvecji is None or sez[i] > najvecji:
-#                 najvecji_i = i
-#                 najvecji = sez[i]
-#         return najvecji_i
+# bo klic funkcije `gcd` izpisoval, kako poteka izračun:
 # 
-#     def poisci_max3(sez):
-#         for i in range(len(sez)):
-#             if sez[i] == max(sez):
-#                 return i
+#     >>> gcd(123, 45)
+#     gcd(123, 45) = ...
+#     gcd(45, 33) = ...
+#     gcd(33, 12) = ...
+#     gcd(12, 9) = ...
+#     gcd(9, 3) = ...
+#     gcd(3, 0) = ...
+#     gcd(3, 0) = 3
+#     gcd(9, 3) = 3
+#     gcd(12, 9) = 3
+#     gcd(33, 12) = 3
+#     gcd(45, 33) = 3
+#     gcd(123, 45) = 3
+#     3
 # 
-# V spremenljivko `potence2` shranite nabor potenc njihovih časovnih zahtevnosti
-# v odvisnosti od dolžine vhodnega seznama.
+# Namig: do imena funkcije dostopate z `f.__name__`
 # =============================================================================
-potence2 = (1,1,2)
-# =====================================================================@011728=
+def pikazi_izracune(f):
+    def glasni_f(*args):
+        klic = '{}({})'.format(f.__name__, ', '.join(map(str, args)))
+        print('{} = ...'.format(klic))
+        y = f(*args)
+        print('{} = {}'.format(klic,y))
+        return y
+    return glasni_f
+# =====================================================================@011779=
 # 3. podnaloga
-# Dane naj bodo sledeče funkcije, ki izračunajo sled kvadratne matrike
-# velikosti $n \times n$:
+# Sestavite funkcijo `prikazi_izvajanje(f)`, ki deluje tako kot
+# `prikazi_izracune`, le da zaradi lepšega pregleda nad izvajanjem v vsakem
+# klicu funkcije bolj zamakne izpis izračunov. Na primer, če definirate:
 # 
-#     def sled1(mat):
-#         sled = 0
-#         for i in range(len(mat)):
-#              for j in range(len(mat)):
-#                  if i == j:
-#                      sled += mat[i][j]
-#         return sled
-# 
-#     def sled2(mat):
-#         sled = 0
-#         for i in range(len(mat)):
-#              sled += mat[i][i]
-#         return sled
-# 
-#     def sled3(mat):
-#         sled = 0
-#         for i, vrstica in enumerate(mat):
-#              sled += vrstica[i]
-#         return sled
-# 
-# V spremenljivko `potence3` shranite nabor potenc njihovih časovnih zahtevnosti
-# v odvisnosti od števila $n$.
-# =============================================================================
-potence3=(2,1,1)
-# =====================================================================@011729=
-# 4. podnaloga
-# Dane naj bodo sledeče funkcije, ki iščejo dani element v urejenem seznamu:
-# 
-#     def poisci1(sez, x):
-#         return x in sez
-# 
-#     def poisci2(sez, x):
-#         for y in sez:
-#             if x == y:
-#                 return True
-#         return False
-#     
-#     def poisci3(sez, x):
-#         od, do = 0, len(sez)
-#         while od < do:
-#             sredina = (od + do) // 2
-#             sredinski = sez[sredina]
-#             if x == sredinski:
-#                 return True
-#             elif x < sredinski:
-#                 do = sredina
-#             elif x > sredinski:
-#                 od = sredina + 1
-#         return False
-#     
-#     def poisci4(sez, x, od=0, do=None):
-#         if do is None:
-#             do = len(sez)
-#         if od == do:
-#             return False
+#     @prikazi_izracun
+#     def fib(n):
+#         if n == 0 or n == 1:
+#             return n
 #         else:
-#             sredina = (od + do) // 2
-#             sredinski = sez[sredina]
-#             if x == sredinski:
-#                 return True
-#             elif x < sredinski:
-#                 return poisci4(sez, x, od, sredina)
-#             elif x > sredinski:
-#                 return poisci4(sez, x, sredina + 1, do)
-#     
-#     def poisci5(sez, x):
-#         if not sez:
-#             return False
-#         else:
-#             sredina = len(sez) // 2
-#             sredinski = sez[sredina]
-#             if x == sredinski:
-#                 return True
-#             elif x < sredinski:
-#                 return poisci5(sez[:sredina], x)
-#             elif x > sredinski:
-#                 return poisci5(sez[sredina + 1:], x)
+#             return fib(n - 1) + fib(n - 2)
 # 
-# V spremenljivko `zahtevnosti4` shranite nabor njihovih časovnih zahtevnosti,
-# v odvisnosti od dolžine seznama. Časovne zahtevnosti opišite z enim od nizov
-#     'O(1)', 'O(n)', 'O(n^2)', 'O(log n)', 'O(n log n)', 'O(n^3)'.
+# Bo klic funkcije `fib` izpisoval:
+# 
+#     >>> fib(3)
+#     fib(3) = ...
+#       fib(2) = ...
+#         fib(1) = ...
+#         fib(1) = 1
+#         fib(0) = ...
+#         fib(0) = 0
+#       fib(2) = 1
+#       fib(1) = ...
+#       fib(1) = 1
+#     fib(3) = 2
+#     2
 # =============================================================================
-zahtevnosti4 = ('O(n)', 'O(n)', 'O(log n)', 'O(log n)', 'O(n)')
+k=0
+def prikazi_izracun(f):
+    def glasni_f(*args):
+        global k
+        klic = '{}({})'.format(f.__name__, ', '.join(map(str, args)))
+        print('{}{} = ...'.format(k * ' ', klic))
+        k+=3
+        y = f(*args)
+        k-=3
+        print('{}{} = {}'.format(k*' ', klic,y))
+        return y
+    return glasni_f
 
 
 
@@ -599,74 +577,30 @@ def _validate_current_file():
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjE4fQ:1eP5hk:4ypMvKCwzVFDADAMAlCTDYq6WQI'
+        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNzc3fQ:1eP5hd:Vrflk3z8O9al_FO7bUmkljMGsRw'
         
         try:
-            if not isinstance(potence1, tuple):
-                Check.error('Spremenljivka potence1 ni nabor.')
-            elif len(potence1) != 3:
-                Check.error('Spremenljivka potence1 mora vsebovati 3 elemente.')
-            elif not all(isinstance(potenca, int) for potenca in potence1):
-                Check.error('Spremenljivka potence1 mora vsebovati samo cela števila.')
-            elif not all(potenca >= 0 for potenca in potence1):
-                Check.error('Spremenljivka potence1 mora vsebovati samo nenegativna števila.')
-            Check.secret(potence1)
+            pass
         except:
             Check.error("Testi sprožijo izjemo\n  {0}",
                         "\n  ".join(traceback.format_exc().split("\n"))[:-2])
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjE3fQ:1eP5hk:kPH9lzRHM2zgwI5IkPQrAOVbxKQ'
+        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNzc4fQ:1eP5hd:Q9AalV_2QW5AvIucM_j68P0nugU'
         
         try:
-            if not isinstance(potence2, tuple):
-                Check.error('Spremenljivka potence2 ni nabor.')
-            elif len(potence2) != 3:
-                Check.error('Spremenljivka potence2 mora vsebovati 3 elemente.')
-            elif not all(isinstance(potenca, int) for potenca in potence2):
-                Check.error('Spremenljivka potence2 mora vsebovati samo cela števila.')
-            elif not all(potenca >= 0 for potenca in potence2):
-                Check.error('Spremenljivka potence2 mora vsebovati samo nenegativna števila.')
-            Check.secret(potence2)
+            pass
         except:
             Check.error("Testi sprožijo izjemo\n  {0}",
                         "\n  ".join(traceback.format_exc().split("\n"))[:-2])
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNzI4fQ:1eP5hk:-m_UvynDDPUw92IbjIMUkEfIgRM'
+        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNzc5fQ:1eP5hd:TYfnzOF1YmyqVAO8ROn_WAKt2FA'
         
         try:
-            if not isinstance(potence3, tuple):
-                Check.error('Spremenljivka potence3 ni nabor.')
-            elif len(potence3) != 3:
-                Check.error('Spremenljivka potence3 mora vsebovati 3 elemente.')
-            elif not all(isinstance(potenca, int) for potenca in potence3):
-                Check.error('Spremenljivka potence3 mora vsebovati samo cela števila.')
-            elif not all(potenca >= 0 for potenca in potence3):
-                Check.error('Spremenljivka potence3 mora vsebovati samo nenegativna števila.')
-            Check.secret(potence3)
-        except:
-            Check.error("Testi sprožijo izjemo\n  {0}",
-                        "\n  ".join(traceback.format_exc().split("\n"))[:-2])
-
-    if Check.part():
-        
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNzI5fQ:1eP5hk:mvD9JhYsc571qjImn4q76Z6E7BE'
-        
-        try:
-            if not isinstance(zahtevnosti4, tuple):
-                Check.error('Spremenljivka zahtevnosti4 ni nabor.')
-            elif len(zahtevnosti4) != 5:
-                Check.error('Spremenljivka zahtevnosti4 mora vsebovati 5 elementov.')
-            else:
-                for zahtevnost in zahtevnosti4:
-                    if zahtevnost not in ['O(1)', 'O(n)', 'O(n^2)', 'O(log n)', 'O(n log n)', 'O(n^3)']:
-                        Check.error('Zahtevnost {!r} ni pravilne oblike.'.format(zahtevnost))
-                if zahtevnosti4[4] == 'O(log n)':
-                    Check.error('Razmislite, koliko je časovna zahtevnost ustvarjanja rezin.')
-            Check.secret(zahtevnosti4)
+            pass
         except:
             Check.error("Testi sprožijo izjemo\n  {0}",
                         "\n  ".join(traceback.format_exc().split("\n"))[:-2])

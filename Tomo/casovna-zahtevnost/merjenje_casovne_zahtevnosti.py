@@ -525,7 +525,7 @@ def _validate_current_file():
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjEwfQ:1eMqUN:fbOnmuT0zfROWWkUvdIRxhPj-U0'
+        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjEwfQ:1eP5hk:s3SihRw7JZFrUwcB0EDV0b-l68U'
         
         try:
             if not isinstance(potence1, tuple):
@@ -543,7 +543,7 @@ def _validate_current_file():
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjExfQ:1eMqUN:jSZifRaVeEePyPQSV82OIqHG6YQ'
+        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjExfQ:1eP5hk:kejvUnl7J11C1AOu02n4qBMRiRA'
         
         try:
             if not isinstance(potence2, tuple):
@@ -561,7 +561,7 @@ def _validate_current_file():
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjEyfQ:1eMqUN:cdmGOCoEHFaarH6hNJJK1VYClyM'
+        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjEyfQ:1eP5hk:rQt1Kwj0ealpmWoCF23aHOBu8o0'
         
         try:
             if not isinstance(potence3, tuple):

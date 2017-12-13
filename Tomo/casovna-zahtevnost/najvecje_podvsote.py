@@ -542,7 +542,7 @@ def _validate_current_file():
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjEzfQ:1eMqUN:QgC6QhM0JuBGlyAcwgqZW3uaN7M'
+        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjEzfQ:1eP5hk:EArP8pnvQJFMvnwhe-YqUmxIeUE'
         
         try:
             Check.equal('intervali_najvecjih_vsot_kubicna([-3, 12, -3])', {(1, 2)})
@@ -556,7 +556,7 @@ def _validate_current_file():
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjE0fQ:1eMqUN:IqX9Z-moT_RYa0v1kBEgHsQ-5bg'
+        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjE0fQ:1eP5hk:fG4Lp6aOnUCE0REvMPuPr6Jmg40'
         
         try:
             Check.equal('intervali_najvecjih_vsot_kvadratna([-3, 12, -3])', {(1, 2)})
@@ -570,7 +570,7 @@ def _validate_current_file():
 
     if Check.part():
         
-        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjE1fQ:1eMqUN:DJmqVGWGw8g_heU44gegojVkiS0'
+        Check.current_part['token'] = 'eyJ1c2VyIjoxMjAsInBhcnQiOjExNjE1fQ:1eP5hk:7pz7R0BAQn57v3Ic9juWeaq1qhg'
         
         try:
             Check.equal('intervali_najvecjih_vsot_linearna([-3, 12, -3])', {(1, 2)})
