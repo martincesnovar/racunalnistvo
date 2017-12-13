@@ -13,6 +13,20 @@
 # in `False` sicer.
 # =============================================================================
 def nicelni_pari_v_urejenem(seznam):
+    '''O(n)'''
+    slo = {}
+    stevilo0=0
+    for i in range(len(seznam)):
+        slo[seznam[i]] = 0
+        if seznam[i] == 0:
+            stevilo0+=1
+        if stevilo0 > 1:
+            return True
+        if seznam[i] in slo and -seznam[i] in slo and seznam[i] != 0:
+            return True
+    return False
+
+def nicelni_pari_v_urejenem(seznam):
     '''O(n^2)'''
     for i in range(len(seznam)):
         for j in range(len(seznam)):
@@ -25,6 +39,20 @@ def nicelni_pari_v_urejenem(seznam):
 # neurejenem seznamu celih števil obstaja par elementov, ki se sešteje v 0,
 # in `False` sicer.
 # =============================================================================
+
+def nicelni_pari_v_neurejenem(seznam):
+    '''O(n)'''
+    slo = {}
+    stevilo0=0
+    for i in range(len(seznam)):
+        slo[seznam[i]] = 0
+        if seznam[i] == 0:
+            stevilo0+=1
+        if stevilo0 > 1:
+            return True
+        if seznam[i] in slo and -seznam[i] in slo and seznam[i] != 0:
+            return True
+    return False
 
 def nicelni_pari_v_neurejenem(seznam):
     '''O(n^2)'''
