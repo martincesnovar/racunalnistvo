@@ -38,6 +38,23 @@ def razdeli(mase):
             return m_brez
     resitev = sestavi_nahrbtnik(0, 0)
     return min(resitev, skupaj - resitev)
+
+def razdeli_v(mase):
+    '''Vrne vsoto mase večje skupine.'''
+    skupaj = sum(mase)
+    def sestavi_nahrbtnik(l, m):
+        """Za udeleženca se odločimo, ali ga bomo dodali v skupino ali
+        ne, izberem boljšo možnost. Vrnem maso"""
+        if l == len(mase):
+            return m
+        m_z = sestavi_nahrbtnik(l + 1, m + mase[l])  # Ga vzamemo v skupino.
+        m_brez = sestavi_nahrbtnik(l + 1, m)  # Ga ne vzamemo v skupino.
+        if abs((skupaj - m_z) - m_z) < abs((skupaj - m_brez) - m_brez):
+            return m_z
+        else:
+            return m_brez
+    resitev = sestavi_nahrbtnik(0, 0)
+    return max(resitev, skupaj - resitev)
 # =====================================================================@010513=
 # 2. podnaloga
 # Če zgornjo rešitev preizkusite na seznamih dolžine 25 ali več, boste
@@ -100,14 +117,32 @@ def razdeli_udelezence(mase):
     while not nahrbtnik[p]:
         p -= 1
     rez = []
-    while masa[p] != None:
+    while masa[p] is not None:
         rez.append(masa[p])
         p -= masa[p]
     return rez
 
+def razdeli_udelezence_tezji(mase):
+    '''Vrne mase večje skupine pri čimbolj enakomerni delitvi.'''
+    skupaj = sum(mase)  # Skupna masa vseh.
 
+    nahrbtnik = [False for i in range(skupaj + 1)]
+    masa = [None for i in range(skupaj + 1)]
+    nahrbtnik[0] = True
+    for m in mase:
+        for i in range(skupaj - m, -1, -1):
+            if nahrbtnik[i] and not nahrbtnik[i+m]:
+                nahrbtnik[i+m] = True
+                masa[i+m] = m
 
-
+    p = skupaj // 2
+    while not nahrbtnik[p]:
+        p += 1
+    ret = []
+    while masa[p] != None:
+        ret.append(masa[p])
+        p -= masa[p]
+    return ret
 
 
 
