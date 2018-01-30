@@ -1,4 +1,4 @@
-from drevo import Drevo
+from dvojisko_drevo import Drevo
 
 def premi_pregled(d):
     '''premi pregled dreves'''

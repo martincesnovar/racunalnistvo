@@ -1,0 +1,35 @@
+Dvojiško drevo sestavimo tako, da zaènemo s praznim drevesom, nato pa vsak element vstavimo kot nov list na poljubno mesto v že obstojeèe drevo. 
+Vsakiè, ko vstavimo nov element, si zapišemo vmesni pregled dobljenega drevesa. Predpostaviš lahko, da so elementi, ki jih vstavljamo, vsi paroma razlièni. 
+Ali je mogoèe iz dobljenega zaporedja vmesnih pregledov rekonstruirati drevo? Odgovor utemelji. 
+
+NE
+Protiprimer
+
+>>> d1 = Drevo('a',desno=Drevo('b',desno=Drevo('c')))
+>>> d2 = Drevo('a',desno=Drevo('c',levo=Drevo('b')))
+>>> list(vmesni_pregled(d1))
+['a', 'b', 'c']
+>>> list(vmesni_pregled(d2))
+['a', 'b', 'c']
+Dodamo element:
+>>> d1 = Drevo('a',levo=Drevo('0'),desno=Drevo('b',desno=Drevo('c')))
+>>> d2 = Drevo('a',levo=Drevo('0'),desno=Drevo('c',levo=Drevo('b')))
+>>> list(vmesni_pregled(d1))
+['0', 'a', 'b', 'c']
+>>> list(vmesni_pregled(d2))
+['0', 'a', 'b', 'c']
+Ker imata enak vmesni pregled, ni možno enolièno rekonstruirati drevesa.
+
+
+Dan je **narašèajoèe** urejen seznam [a_0,a_1,a_2,…,a_(n-1)] dolžine n, v katerem hranimo cela števila. 
+Poišèi algoritem katerega najslabša èasovna zahtevnost je O(log(n)), ki ugotovi, ali v seznamu obstaja tak i, da je a_i=i.
+Algoritem podrobno opiši.  Utemelji, da je algoritem res take najslabše èasovne zahtevnosti in doloèi še njegovo najboljšo èasovno zahtevnost!
+
+Èe ne znaš poiskati ustreznega algoritma te èasovne zahtevnosti, lahko za najveè pol toèk poišèeš takega,
+katerega èasovna zahtevnost v najslabšem primeru je O(n), O(n log n) oz. O(n2). 
+Utemelji, da je algoritem res take najslabše èasovne zahtevnosti in doloèi še njegovo najboljšo èasovno zahtevnost!
+
+BISEKCIJA
+Pogledamo srednji element na intervalu [a,b]. Èe je sez[i] < i, potem a = i in  nadaljujemo, èe je sez[i] > i b = i in nadaljujemo dokler ne pridemo do iskanega elementa
+ali dokler a!=b (potem elementa ni v seznamu, èe ga ne zadanemo). Ker se na vsakem koraku interval razpolovi, je èasovna zahtevnost O(log(n)).
+Najboljša èasovna zahtevnost je O(1), èe zadanemo element na prvem koraku (sez[len(sez)//2]==len(sez//2)).
