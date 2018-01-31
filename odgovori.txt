@@ -20,6 +20,28 @@ Dodamo element:
 ['0', 'a', 'b', 'c']
 Ker imata enak vmesni pregled, ni možno enolièno rekonstruirati drevesa.
 
+Množenje matrik
+
+Denimo, da moramo za izraèun fizikalne simulacije velikokrat zmnožiti med seboj 6 matrik fiksne velikosti. V kakšnem vrstnem redu naj jih množimo, da bomo porabili kar èimmanj operacij, èe so matrike velikosti 3x4, 4x5, 5x5, 5x2, 2x2 ter 2x3? Koliko operacij pri tem porabimo? Èe je možnih naèinov množenja z minimalnim številom operacij veè, napiši vse!
+Množenje matrik II
+
+Ker imamo zelo poèasen raèunalnik, bomo množenje izvedli na dveh raèunalnikih. Prvi bo zmnožil prve 4 matrike, drugi pa zadnje dve. Potem bomo na prvem raèunalniku zmnožili še dobljeni matriki. Si pri tem lahko pomagamo z rezultati iz prve naloge?
+
+
+    Koliko operacij potrebujemo, da matrike optimalno zmnožimo?
+    Kako jih moramo množiti?
+    Kako optimalno zmnožimo matrike od 3 do 7?
+    Koliko operacij potrebujemo, da optimalno zmnožimo prvih 5 matrik?
+    Kako naj zmnožimo zadnje štiri matrike, da bo število operacij najmanjše?
+    Kako naj zmnožimo matrike, èe jih moramo razdeliti na oba raèunalnika, od katerih vsah obdela po štiri matrike?
+    Ali si lahko pomagamo z naraèunanimi podatki, èe spremenimo število stolpcev zadnje matrike iz 3 na 4, da izraèunamo novo optimalno množenje?
+    Denimo, da moramo skupaj zmnožiti prve tri, druge tri in zadnji dve matriki. Kako naj jih zmnožimo med seboj, da bomo porabili èimmanj operacij?
+    Kako optimalno zmnožimo matrike od 2 do 6?
+    Denimo, da smo matriko raèunali "peš" (brez uporabe raèunalnika) in smo na koncu ugotovili, da smo se zmotili pri raèunanju optimalnega števila operacij za množenje matrik od 2 do 5. Kaj vse moramo na novo naraèunati, da dobimo pravilni rezultat.
+
+
+
+
 
 Dan je **narašèajoèe** urejen seznam [a_0,a_1,a_2,…,a_(n-1)] dolžine n, v katerem hranimo cela števila. 
 Poišèi algoritem katerega najslabša èasovna zahtevnost je O(log(n)), ki ugotovi, ali v seznamu obstaja tak i, da je a_i=i.
