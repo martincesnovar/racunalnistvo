@@ -25,17 +25,18 @@ def indeks(premi):
             return i
     return len(premi)
 
-def konstruiraj(premi):
+def konstruiraj(premi,prvi=True):
     '''iz premega pregleda vrne iskalno dvojiško drevo, če obstaja'''
     if len(premi) == 0:
         return Drevo()
     if len(premi) == 1:
         return Drevo(premi[0])
-    if not je_lahko_BST(premi):
-        raise Exception('Ni iskalno drevo')
+    if prvi:
+        if not je_lahko_BST(premi):
+            raise Exception('Ni iskalno drevo')
     i = indeks(premi)
-    levi = konstruiraj(premi[1:i])
-    desni = konstruiraj(premi[i:])
+    levi = konstruiraj(premi[1:i], prvi=False)
+    desni = konstruiraj(premi[i:], prvi=False)
     return Drevo(premi[0], levo=levi,desno=desni)
 
 def obrni_sode(vrsta):
