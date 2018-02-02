@@ -28,7 +28,7 @@ def indeks(premi):
 def konstruiraj(premi):
     '''iz premega pregleda vrne iskalno dvojiško drevo, če obstaja'''
     if len(premi) == 0:
-        return
+        return Drevo()
     if len(premi) == 1:
         return Drevo(premi[0])
     if not je_lahko_BST(premi):
